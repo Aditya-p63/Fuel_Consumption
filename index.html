@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fuel Consumption Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-theme="default">
+  <div id="topLoader" class="top-loader" aria-hidden="true">
+    <div id="topLoaderBar" class="top-loader-bar"></div>
+  </div>
+
+  <div class="bg-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-orb orb-2" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <main class="app">
+    <header class="hero glass reveal">
+      <p class="eyebrow">Fuel Consumption Tracker + Prediction</p>
+      <h1>Mileage & Fuel Insights</h1>
+      <p class="subtitle">
+        Track your trips, understand fuel usage, and get simple insights over time.
+      </p>
+      <div class="hero-badges">
+        <span class="badge">Live Insights</span>
+        <span class="badge">Usage Tips</span>
+        <span class="badge">Fuel Forecast</span>
+      </div>
+    </header>
+
+    <section class="stats reveal" aria-label="Mileage statistics">
+      <article class="stat-card glass">
+        <div class="stat-top">
+          <p>Avg. Mileage</p>
+          <i data-lucide="gauge" class="icon"></i>
+        </div>
+        <h3 id="avgMileage">-</h3>
+      </article>
+      <article class="stat-card glass">
+        <div class="stat-top">
+          <p>Best Mileage</p>
+          <i data-lucide="trending-up" class="icon"></i>
+        </div>
+        <h3 id="maxMileage">-</h3>
+      </article>
+      <article class="stat-card glass">
+        <div class="stat-top">
+          <p>Lowest Mileage</p>
+          <i data-lucide="trending-down" class="icon"></i>
+        </div>
+        <h3 id="minMileage">-</h3>
+      </article>
+      <article class="stat-card glass">
+        <div class="stat-top">
+          <p>Total Trips</p>
+          <i data-lucide="route" class="icon"></i>
+        </div>
+        <h3 id="tripCount">0</h3>
+      </article>
+    </section>
+
+    <section class="charts-grid reveal">
+      <article class="glass chart-card">
+        <div class="card-head">
+          <h2>Mileage Trend</h2>
+          <span class="chip">Line Chart</span>
+        </div>
+        <canvas id="mileageChart" height="140"></canvas>
+      </article>
+      <article class="glass chart-card">
+        <div class="card-head">
+          <h2>Fuel Usage</h2>
+          <span class="chip">Bar Chart</span>
+        </div>
+        <canvas id="fuelChart" height="140"></canvas>
+        <p id="fuelChartNote" class="chart-note" aria-live="polite"></p>
+      </article>
+    </section>
+
+    <section class="grid two reveal">
+      <article class="glass card">
+        <div class="card-head">
+          <h2>Log a Trip</h2>
+          <i data-lucide="plus-circle" class="icon"></i>
+        </div>
+        <form id="tripForm" class="form-grid">
+          <label>
+            Distance traveled (km)
+            <input id="distance" type="number" step="0.01" min="0.01" required />
+          </label>
+          <label>
+            Fuel used (liters)
+            <input id="fuel" type="number" step="0.01" min="0.01" required />
+          </label>
+          <label>
+            Trip date (optional)
+            <input id="date" type="date" />
+          </label>
+          <button class="btn primary" type="submit">Save Trip</button>
+        </form>
+        <p id="addTripMessage" class="message" role="status"></p>
+      </article>
+
+      <article class="glass card">
+        <div class="card-head">
+          <h2>Fuel Estimate</h2>
+          <i data-lucide="brain-circuit" class="icon"></i>
+        </div>
+        <form id="predictForm" class="form-grid">
+          <label>
+            Enter distance (km)
+            <input id="futureDistance" type="number" step="0.01" min="0.01" required />
+          </label>
+          <button class="btn secondary" type="submit">Estimate Fuel</button>
+        </form>
+        <p id="predictionResult" class="message" role="status"></p>
+      </article>
+    </section>
+
+    <section class="grid two reveal">
+      <article class="glass card">
+        <div class="card-title-row">
+          <div class="card-head-inline">
+            <h2>Recent Trips</h2>
+          </div>
+          <button id="clearAllBtn" class="btn danger" type="button">Clear All</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Distance (km)</th>
+                <th>Fuel (L)</th>
+                <th>Mileage (km/L)</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="tripTableBody"></tbody>
+          </table>
+        </div>
+        <p id="emptyTrips" class="empty-text">No trips yet. Start by logging your first trip.</p>
+      </article>
+
+      <article class="glass card">
+        <div class="card-head">
+          <h2>Smart Insights</h2>
+          <i data-lucide="sparkles" class="icon"></i>
+        </div>
+        <ul id="insightsList" class="insights-list"></ul>
+      </article>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="app.js"></script>
+</body>
+</html>
